@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "UdaciFitness",
-    "slug": "UdaciFitness",
+    "name": "udacifitness",
+    "description": "The best triathlon training app in the world.",
+    "slug": "udacifitness",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -11,7 +12,6 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,8 +23,15 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "icon": "https://maxcdn.icons8.com/Color/PNG/512/Sports/triathlon-512.png",
+    "notification": {
+      "icon": "./assets/basketball-open-letter-3.png"
+    },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "vijay.udacifitness.exp"
+    },
+    "android": {
+      "package": "vijay.udacifitness.exp"
     }
   }
 }
