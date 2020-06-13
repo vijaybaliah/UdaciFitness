@@ -1,5 +1,8 @@
-import { AsyncStorage } from 'react-native'
-import { formatCalendarResults, CALENDAR_STORAGE_KEY } from './_calendar'
+import superagent from 'superagent';
+import { AsyncStorage } from 'react-native';
+import config from './config';
+
+import { formatCalendarResults, CALENDAR_STORAGE_KEY } from './_calendar';
 
 export function fetchCalendarResults () {
   return AsyncStorage.getItem(CALENDAR_STORAGE_KEY)
@@ -19,3 +22,45 @@ export function removeEntry(key) {
     AsyncStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(data))
   })
 }
+
+const formatUrl = (path) => {
+  if (path[0] === 'h') {
+    console.log('Path: ' + path);
+    return path;
+  }
+  let adjustedPath = path[0] !== '/' ? '/' + path : path;
+  adjustedPath = adjustedPath.replace(/\/+/g, '/');
+  let formattedUrl = adjustedPath;
+  // if (__DEVELOPMENT__) {
+    formattedUrl = config.apiHost + adjustedPath;
+  // } else if (__SERVER__) {
+  //   formattedUrl = config.bePrivateHost + adjustedPath;
+  // }
+  console.log('formatted Path: ' + formattedUrl);
+  return formattedUrl;
+}
+
+const fetch = (url, options = {}) => new Promise((resolve, reject) => {
+  const { method = 'get', data } = options;
+  console.log('method: ', method);
+  const request = superagent[method](formatUrl(url))
+
+  if (data) {
+    console.log('data: ', data);
+    request.send(data);
+  }
+
+  // request.withCredentials();
+
+  request.end((err, { body } = {}) => {
+    if (err) {
+      console.log('error: ', (body || err));
+      return reject(body || err)
+    } else {
+      console.log('response: ', body);
+      return resolve(body)
+    }
+  })
+});
+
+export default fetch;

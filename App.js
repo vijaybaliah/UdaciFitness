@@ -7,13 +7,15 @@ import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-n
 import { createStackNavigator } from 'react-navigation-stack';
 import Constants from 'expo-constants';
 
+import store from './store';
+import { setLocalNotification } from './src/utils/helpers';
 import History from './src/components/History';
 import AddEntry from './src/components/AddEntry';
 import { white, purple } from './src/utils/colors';
 import EntryDetail from './src/components/EntryDetail';
 import Live from './src/components/Live';
-import { setLocalNotification } from './src/utils/helpers';
-import store from './store';
+import Login from './src/components/Login';
+
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
@@ -39,7 +41,7 @@ const Tabs = {
     },
   },
   Live: {
-    screen: Live,
+    screen: Login,
     navigationOptions: {
       tabBarLabel: 'Live',
       tabBarIcon: ({ tintColor }) => <Ionicons name='ios-speedometer' size={30} color={tintColor} />

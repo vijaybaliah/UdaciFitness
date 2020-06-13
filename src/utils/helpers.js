@@ -8,6 +8,10 @@ import { Notifications } from 'expo';
 
 const NOTIFICATION_KEY = 'UdaciFitness:notifications'
 
+export const action = (type, payload = {}, meta = {}) => {
+  return {type, payload, meta: {...meta}}
+};
+
 export function isBetween (num, x, y) {
   if (num >= x && num <= y) {
     return true
