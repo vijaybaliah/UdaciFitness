@@ -1,6 +1,9 @@
 import { ADD_ENTRY, RECEIVE_ENTRIES } from '../actions'
 
-function entries (state= {}, action) {
+function entries (state= {
+  entry: [],
+  entries: {}
+}, action = {}) {
   switch(action.type) {
     case ADD_ENTRY:
       return {

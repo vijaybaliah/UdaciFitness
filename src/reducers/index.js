@@ -2,6 +2,6 @@ import { combineReducers } from 'redux';
 
 import entries from './entries';
 
-export default combineReducers({
+export const reducers = combineReducers({
   ...entries,
 });

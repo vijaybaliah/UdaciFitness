@@ -1,6 +1,6 @@
+import { applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'
+
 import login from './login';
 
-const middlewares = [];
-middlewares.push( login );
-
-export default middlewares;
+export default applyMiddleware(thunk, login);
