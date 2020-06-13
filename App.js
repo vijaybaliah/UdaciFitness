@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Platform, StatusBar } from 'react-native';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { createAppContainer } from 'react-navigation';
@@ -8,13 +7,13 @@ import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-n
 import { createStackNavigator } from 'react-navigation-stack';
 import Constants from 'expo-constants';
 
-import reducer from './reducers';
-import History from './components/History';
-import AddEntry from './components/AddEntry';
-import { white, purple } from './utils/colors';
-import EntryDetail from './components/EntryDetail';
-import Live from './components/Live';
-import { setLocalNotification } from './utils/helpers'
+import History from './src/components/History';
+import AddEntry from './src/components/AddEntry';
+import { white, purple } from './src/utils/colors';
+import EntryDetail from './src/components/EntryDetail';
+import Live from './src/components/Live';
+import { setLocalNotification } from './src/utils/helpers';
+import store from './store';
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
@@ -91,7 +90,7 @@ export default class App extends Component {
   }
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <View style={{ flex: 1 }}>
           <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
           <MainNavigator />
