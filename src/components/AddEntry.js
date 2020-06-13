@@ -200,10 +200,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
-  const key = timeToString()
-
+  const key = timeToString();
+  const { entries } = state;
   return {
-    alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+    alreadyLogged: entries[key] && typeof entries[key].today === 'undefined'
   }
 }
 

@@ -70,7 +70,7 @@ const MainNavigator = createAppContainer(createStackNavigator({
   Home: {
     screen: TabNav,
     navigationOptions: ({navigation}) => ({
-      header: null,
+      headerShown: false,
     }),
   },
   EntryDetail: {
