@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import {
+  createAppContainer,
+  createSwitchNavigator,
+} from 'react-navigation';
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator
+} from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import Constants from 'expo-constants';
 
@@ -15,6 +21,7 @@ import { white, purple } from './src/utils/colors';
 import EntryDetail from './src/components/EntryDetail';
 import Live from './src/components/Live';
 import Login from './src/components/Login';
+import AuthLoadingScreen from './src/components/AuthLoadingScreen';
 
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
@@ -41,7 +48,7 @@ const Tabs = {
     },
   },
   Live: {
-    screen: Login,
+    screen: Live,
     navigationOptions: {
       tabBarLabel: 'Live',
       tabBarIcon: ({ tintColor }) => <Ionicons name='ios-speedometer' size={30} color={tintColor} />
@@ -67,8 +74,7 @@ const navigationOptions = {
 }
 
 const TabNav = Platform.OS === 'ios' ? createBottomTabNavigator(Tabs, navigationOptions) : createMaterialTopTabNavigator(Tabs, navigationOptions)
-
-const MainNavigator = createAppContainer(createStackNavigator({
+const AppStack = createStackNavigator({
   Home: {
     screen: TabNav,
     navigationOptions: ({navigation}) => ({
@@ -84,7 +90,20 @@ const MainNavigator = createAppContainer(createStackNavigator({
       }
     })
   }
-}))
+});
+
+const AuthStack = createStackNavigator({ SignIn: Login });
+
+const MainNavigator = createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  }
+))
 
 export default class App extends Component {
   componentDidMount() {

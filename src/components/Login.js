@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
-import InputText from './UI/InputText';
-import { verifyMobileNumber } from '../actions';
 import { useSelector, useDispatch } from "react-redux";
-import { View } from 'react-native';
+import {
+  View,
+  AsyncStorage,
+} from 'react-native';
+
+import InputText from './UI/InputText';
+import {
+  verifyMobileNumber,
+  sendUserOtp,
+} from '../actions';
 import Button from './UI/Button';
 
 const Login = (props) => {
 
   const [ phone, setPhone ] = useState('');
   const [ otp, setOtp ] = useState('');
-  const { status } = useSelector(state => state.verifyUserMobileNo);
+  const { status, loggedInStatus } = useSelector(state => {
+    const { verifyUserMobileNo, userInfo } = state;
+    return {
+      status: verifyUserMobileNo.status,
+      loggedInStatus: userInfo.status,
+    }
+  });
   const dispatch = useDispatch();
 
   const handlePhoneNumberChange = value => setPhone(value);
@@ -17,23 +30,37 @@ const Login = (props) => {
   const handleOTPUpdate = value => setOtp(value);
 
   const handleVerifyMobile = () => {
-    const payload = {
-      direct_login: true,
-      user: {
-        login: phone,
-        resend: false,
-        type: {
-          register: true
-        }
-      }
-    };
-    console.log('handleVerifyMobile payload: ', payload);
     if (status) {
-
+      dispatch(sendUserOtp({
+        direct_login: true,
+        user: {
+          phone,
+          otp
+        }
+      }));
     } else {
-      dispatch(verifyMobileNumber(payload));
+      dispatch(verifyMobileNumber({
+        direct_login: true,
+        user: {
+          login: phone,
+          resend: false,
+          type: {
+            register: true
+          }
+        }
+      }));
     }
 
+  }
+
+  const signInAsync = async () => {
+    console.log('signInAsync called');
+    await AsyncStorage.setItem('userToken', 'abc');
+    props.navigation.navigate('App');
+  };
+
+  if (loggedInStatus) {
+    signInAsync();
   }
 
   return (

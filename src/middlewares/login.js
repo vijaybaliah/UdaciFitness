@@ -1,26 +1,40 @@
 import {
+  VERIFY_MOBILE_NUMBER,
   SEND_USER_OTP,
-  SEND_USER_OTP_SUCCESS,
-  SEND_USER_OTP_ERROR,
 } from '../actions';
 import fetch from '../utils/api';
-import { verifyUserMobileNo } from '../utils/apiRoutes';
+import {
+  verifyUserMobileNo,
+  signUpUser,
+} from '../utils/apiRoutes';
 
 const login = store => next => action => {
   const { type, payload } = action;
   const result =  next(action);
   switch(type) {
-    case SEND_USER_OTP:
+    case VERIFY_MOBILE_NUMBER:
       fetch(verifyUserMobileNo(), {
         method: 'post',
         data: payload
       }).then(response => {
-        store.dispatch({type: SEND_USER_OTP_SUCCESS, payload: response});
+        store.dispatch({type: type + '_SUCCESS', payload: response});
       }, (error) => {
-        store.dispatch({type: SEND_USER_OTP_ERROR, payload: {error: error.message}});
+        store.dispatch({type: type + '_ERROR', payload: {error: error.message}});
       }).catch(error => {
-        store.dispatch({type: SEND_USER_OTP_ERROR, payload: {error: error.toString()}});
+        store.dispatch({type: type + '_ERROR', payload: {error: error.toString()}});
       })
+      break;
+    case SEND_USER_OTP:
+        fetch(signUpUser(), {
+          method: 'post',
+          data: payload
+        }).then(response => {
+          store.dispatch({type: type + '_SUCCESS', payload: response});
+        }, (error) => {
+          store.dispatch({type: type + '_ERROR', payload: {error: error.message}});
+        }).catch(error => {
+          store.dispatch({type: type + '_ERROR', payload: {error: error.toString()}});
+        });
       break;
   }
   return result;
