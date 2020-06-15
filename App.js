@@ -22,6 +22,10 @@ import EntryDetail from './src/components/EntryDetail';
 import Live from './src/components/Live';
 import Login from './src/components/Login';
 import AuthLoadingScreen from './src/components/AuthLoadingScreen';
+import SendBirdLogin from './src/screens/Login'
+import Menu from './src/screens/Menu'
+import Profile from './src/screens/Profile'
+import OpenChannel from './src/screens/OpenChannel'
 
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
@@ -94,16 +98,36 @@ const AppStack = createStackNavigator({
 
 const AuthStack = createStackNavigator({ SignIn: Login });
 
+const SendBirdStack = createStackNavigator({
+  Login: {
+    screen: SendBirdLogin,
+  },
+  Menu: {
+    screen: Menu
+  },
+  Profile: {
+    screen: Profile
+  },
+  OpenChannel: {
+    screen: OpenChannel
+  }
+});
+
 const MainNavigator = createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
     App: AppStack,
     Auth: AuthStack,
+    SendBird: SendBirdStack,
   },
   {
     initialRouteName: 'AuthLoading',
   }
 ))
+
+
+
+
 
 export default class App extends Component {
   componentDidMount() {

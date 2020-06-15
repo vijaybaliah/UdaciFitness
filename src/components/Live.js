@@ -67,6 +67,10 @@ export default class Live extends Component {
     .catch((error) => console.warn('error asking Location permission: ', error))
   }
 
+  handleSendBirdNav = () => {
+    this.props.navigation.navigate('SendBird')
+  }
+
   render() {
     const { status, coords, direction, bounceValue } = this.state
 
@@ -95,6 +99,11 @@ export default class Live extends Component {
           <TouchableOpacity style={styles.button} onPress={this.askPermission}>
             <Text style={styles.buttonText}>
               Enable
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={this.handleSendBirdNav}>
+            <Text style={styles.buttonText}>
+              load send bird
             </Text>
           </TouchableOpacity>
         </View>
