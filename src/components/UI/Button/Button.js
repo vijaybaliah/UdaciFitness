@@ -63,8 +63,6 @@ const Button = (props) => {
     styleArray.push(overideStyle);
   }
 
-  console.log('children: ', children);
-
   return (
     <TouchableOpacity
       onPress={onClick}
@@ -72,9 +70,9 @@ const Button = (props) => {
       {...props}
     >
       {
-        title ?
+        (title || typeof children === 'string') ?
         <View>
-          <Text style={styleTextArray}>{title}</Text>
+          <Text style={styleTextArray}>{title || children}</Text>
         </View> :
         children
       }
