@@ -28,6 +28,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sendbird": "^3.0.125",
+    "sendbird-syncmanager": "^1.1.18",
     "superagent": "^5.2.2"
   },
   "devDependencies": {

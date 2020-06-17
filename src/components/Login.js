@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   AsyncStorage,
+  Text,
 } from 'react-native';
 
 import InputText from './UI/InputText';
@@ -65,16 +66,20 @@ const Login = (props) => {
 
   return (
     <View>
+      <Text>Phone:</Text>
       <InputText
         onChangeText={handlePhoneNumberChange}
         value={phone}
       />
       {
         status &&
-        <InputText
-          onChangeText={handleOTPUpdate}
-          value={otp}
-        />
+        <View>
+          <Text>otp:</Text>
+          <InputText
+            onChangeText={handleOTPUpdate}
+            value={otp}
+          />
+        </View>
       }
       <Button
         title={'Verify Mobile Number'}
