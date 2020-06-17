@@ -1,7 +1,16 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { TouchableOpacity, StyleSheet } from "react-native";
-import { GREEN, PRIMARY_COLOR } from '../UikitUtils/colors';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import {
+  GREEN,
+  PRIMARY_COLOR,
+  PRIMARY_BTN_TEXT_COLOR,
+} from '../UikitUtils/colors';
 
 const styles = StyleSheet.create({
   primary: {
@@ -13,13 +22,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#2fb432",
   },
   common: {
-    padding: 8,
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 4,
+    minHeight: 40,
   },
   success: {
     backgroundColor: GREEN,
   },
+  primaryText: {
+    color: PRIMARY_BTN_TEXT_COLOR
+  }
 });
 
 const Button = (props) => {
@@ -30,26 +43,41 @@ const Button = (props) => {
     primary,
     secondary,
     success,
+    children,
+    title,
+    onClick,
   } = props;
-  const styleArray = [styles.common, { flex }];
-  if (primary) {
-    styleArray.push(styles.primary);
-  } else if (secondary) {
+  const styleArray = [styles.common, {flex}];
+  const styleTextArray = [];
+
+  if (secondary) {
     styleArray.push(styles.secondary);
   } else if (success) {
     styleArray.push(styles.success);
+  } else if (primary) {
+    styleArray.push(styles.primary);
+    styleTextArray.push(styles.primaryText);
   }
 
   if (overideStyle) {
     styleArray.push(overideStyle);
   }
 
+  console.log('children: ', children);
+
   return (
     <TouchableOpacity
+      onPress={onClick}
       style={styleArray}
       {...props}
     >
-      {props.children}
+      {
+        title ?
+        <View>
+          <Text style={styleTextArray}>{title}</Text>
+        </View> :
+        children
+      }
     </TouchableOpacity>
   );
 };
@@ -60,10 +88,13 @@ Button.propTypes = {
   flex: PropTypes.number,
   overideStyle: PropTypes.object,
   success: PropTypes.bool,
+  title: PropTypes.string,
+  children: PropTypes.any,
+  onClick: PropTypes.func,
 }
 
 Button.defaultProps = {
-  flex: 1,
+  primary: true,
 }
 
 export default Button;

@@ -3,6 +3,7 @@ import { View, Button, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { sendbirdLogin } from '../actions/loginActions';
+import InputText from '../components/UI/InputText';
 
 class Login extends Component {
     static navigationOptions = {
@@ -36,6 +37,7 @@ class Login extends Component {
     }
 
     _nicknameChanged = (nickname) => {
+      console.log('nickname: ', nickname);
         this.setState({ nickname });
     }
 
@@ -49,16 +51,16 @@ class Login extends Component {
             <View style={{backgroundColor: '#fff', flex: 1}}>
                 <View style={styles.containerStyle}>
                     <Text>User ID</Text>
-                    <TextInput
-                        value={this.state.userId}
-                        onChangeText={this._userIdChanged}
+                    <InputText
+                      value={this.state.userId}
+                      onChange={(value) => this._userIdChanged(value)}
                     />
                 </View>
                 <View style={styles.containerStyle}>
                     <Text>Nickname</Text>
-                    <TextInput
-                        value={this.state.nickname}
-                        onChangeText={this._nicknameChanged}
+                    <InputText
+                      value={this.state.nickname}
+                      onChange={this._nicknameChanged}
                     />
                 </View>
                 <View style={styles.containerStyle}>
@@ -66,7 +68,9 @@ class Login extends Component {
                         buttonStyle={{backgroundColor: '#2096f3'}}
                         title='Connect' 
                         onPress={this._onButtonPress}
-                    />
+                    >
+                      {'Connect'}
+                    </Button>
                 </View>
                 <View style={styles.containerStyle}>
                     <Text>{this.props.error}</Text>

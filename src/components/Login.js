@@ -68,7 +68,7 @@ const Login = (props) => {
     <View>
       <Text>Phone:</Text>
       <InputText
-        onChangeText={handlePhoneNumberChange}
+        onChange={handlePhoneNumberChange}
         value={phone}
       />
       {
@@ -76,7 +76,7 @@ const Login = (props) => {
         <View>
           <Text>otp:</Text>
           <InputText
-            onChangeText={handleOTPUpdate}
+            onChange={handleOTPUpdate}
             value={otp}
           />
         </View>

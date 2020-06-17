@@ -23,7 +23,7 @@ const History = () => {
       {/*<TextInput style={styles.input} placeholder="৳" />*/}
       <View style={styles.productPriceRow}>
         <InputText
-          primary
+          outline
           rounded
           numeric
           overideStyle={styles.productPrice}
@@ -33,6 +33,7 @@ const History = () => {
         <Button
           success
           overideStyle={styles.addOrderBtn}
+          flex={1}
         >
           <AntDesign
             name={'plus'}
