@@ -1,33 +1,77 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { StyleSheet, TextInput } from "react-native";
+import { BORDER_COLOR } from '../UikitUtils/colors';
 
 const styles = StyleSheet.create({
   primary: {
-    flex: 1,
     borderWidth: 1,
-    marginTop: 6,
-    padding: 8,
-    borderColor: "#979797",
-    alignItems: "stretch",
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
+    borderColor: BORDER_COLOR,
   },
   secondary: {
     borderBottomWidth: 1,
-    marginTop: 30,
-    borderColor: "#979797",
-    padding: 8,
-    alignItems: "stretch",
+    borderColor: BORDER_COLOR,
   },
-});
-const InputText = (props) => {
-  const styleArray = [];
-  if (props.primary) {
-    styleArray.push(styles.primary);
+  common: {
+    height: 40,
+    padding: 12,
+  },
+  rounded: {
+    borderRadius: 4,
   }
-  if (props.secondary) {
+});
+
+const InputText = (props) => {
+  const {
+    flex,
+    primary,
+    secondary,
+    rounded,
+    style,
+    overideStyle,
+    numeric,
+    onChange,
+    onChangeNative,
+  } = props;
+  const styleArray = [styles.common, { flex }];
+  if (primary) {
+    styleArray.push(styles.primary);
+  } else if (secondary) {
     styleArray.push(styles.secondary);
   }
-  return <TextInput style={styleArray} {...props} />;
+
+  if (rounded) {
+    styleArray.push(styles.rounded);
+  }
+
+  if (overideStyle) {
+    styleArray.push(overideStyle)
+  }
+
+  const keyboardType = numeric ? 'numeric' : 'default';
+  return (
+      <TextInput
+        keyboardType={keyboardType}
+        style={styleArray}
+        onChange={onChangeNative}
+        onChangeText={onChange}
+        {...props}
+      />
+    );
 };
+
+InputText.propTypes = {
+  primary: PropTypes.bool,
+  secondary: PropTypes.bool,
+  flex: PropTypes.number,
+  overideStyle: PropTypes.object,
+  numeric: PropTypes.bool,
+  onChange: PropTypes.func,
+  onChangeNative: PropTypes.func,
+}
+
+InputText.defaultProps = {
+  flex: 1,
+}
+
 export default InputText;

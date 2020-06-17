@@ -1,39 +1,69 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Text } from "react-native";
+import PropTypes from 'prop-types';
+import { TouchableOpacity, StyleSheet } from "react-native";
+import { GREEN, PRIMARY_COLOR } from '../UikitUtils/colors';
+
 const styles = StyleSheet.create({
   primary: {
-    marginTop: 6,
-    padding: 8,
-    width: 70,
-    backgroundColor: "#2fb432",
+    backgroundColor: PRIMARY_COLOR,
     borderBottomRightRadius: 5,
     borderTopRightRadius: 5,
   },
   secondary: {
-    marginTop: 6,
-    padding: 8,
-    width: 122,
     backgroundColor: "#2fb432",
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 20,
+  common: {
+    padding: 8,
+    alignItems: 'center',
+    borderRadius: 4,
+  },
+  success: {
+    backgroundColor: GREEN,
   },
 });
+
 const Button = (props) => {
-  const styleArray = [];
-  if (props.primary) {
+  const {
+    flex,
+    style,
+    overideStyle,
+    primary,
+    secondary,
+    success,
+  } = props;
+  const styleArray = [styles.common, { flex }];
+  if (primary) {
     styleArray.push(styles.primary);
-  }
-  if (props.secondary) {
+  } else if (secondary) {
     styleArray.push(styles.secondary);
+  } else if (success) {
+    styleArray.push(styles.success);
   }
+
+  if (overideStyle) {
+    styleArray.push(overideStyle);
+  }
+
   return (
-    <TouchableOpacity style={styleArray} {...props}>
-      <Text style={styles.textStyle}>+</Text>
+    <TouchableOpacity
+      style={styleArray}
+      {...props}
+    >
+      {props.children}
     </TouchableOpacity>
   );
 };
+
+Button.propTypes = {
+  primary: PropTypes.bool,
+  secondary: PropTypes.bool,
+  flex: PropTypes.number,
+  overideStyle: PropTypes.object,
+  success: PropTypes.bool,
+}
+
+Button.defaultProps = {
+  flex: 1,
+}
+
 export default Button;
