@@ -26,6 +26,7 @@ import SendBirdLogin from './src/screens/Login'
 import Menu from './src/screens/Menu'
 import Profile from './src/screens/Profile'
 import OpenChannel from './src/screens/OpenChannel'
+import Chat from './src/screens/Chat'
 
 
 function UdaciStatusBar ({backgroundColor, ...props}) {
@@ -110,7 +111,10 @@ const SendBirdStack = createStackNavigator({
   },
   OpenChannel: {
     screen: OpenChannel
-  }
+  },
+  Chat: {
+    screen: Chat
+  },
 });
 
 const MainNavigator = createAppContainer(createSwitchNavigator(

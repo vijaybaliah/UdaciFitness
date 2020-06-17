@@ -4806,6 +4806,22 @@ send@0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
+sendbird-syncmanager@^1.1.18:
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/sendbird-syncmanager/-/sendbird-syncmanager-1.1.18.tgz#190873c7d3a79df9878d2dc56f431b57be1342f2"
+  integrity sha512-rrfJwPrD3OQazZJgnL35mF+uL7ppC1gzsc7BPNLi/YTRalmGTst1SiYG6oxSA3RhnSis8yeUi6AwYueEc1LOAA==
+  dependencies:
+    sendbird ">=3.0.121"
+
+sendbird@>=3.0.121:
+  version "3.0.126"
+  resolved "https://registry.yarnpkg.com/sendbird/-/sendbird-3.0.126.tgz#4dab2fcb6bfac4d9d909ea5221100ae8fac4acf3"
+  integrity sha512-S6ZojiEnzllR+BvFRlXdcXuW5ERIy13j7krSHjB8DxfSTHbyNZgwxFehYXGm0JzpE+B45prQNvLQHgB63zNiZQ==
+  dependencies:
+    agentkeepalive "2.2.0"
+    ws "6.0.0"
+    xhr2 "0.1.4"
+
 sendbird@^3.0.125:
   version "3.0.125"
   resolved "https://registry.yarnpkg.com/sendbird/-/sendbird-3.0.125.tgz#9b509d586f3f549865e6317153cd27857a7d357f"
