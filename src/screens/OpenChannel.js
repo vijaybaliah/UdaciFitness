@@ -70,9 +70,9 @@ class OpenChannel extends Component {
 		}
 	}
 
-	registerCommonHandler = (channelHandler, channelUrl) => {
+	registerCommonHandler = (channelUrl, channelHandler) => {
     channelHandler.onMessageReceived = (channel, message) => {
-      console.log('message: ', message);
+      console.log('message2: ', message);
       // if (channel.url === channelUrl) {
       //   // if (channel.isGroupChannel()) {
       //   //   sbMarkAsRead({ channel });
@@ -82,7 +82,7 @@ class OpenChannel extends Component {
     channelHandler.onMessageUpdated = (channel, message) => {
 
       if (channel.url === channelUrl) {
-        console.log('message: ', message);
+        console.log('message3: ', message);
       }
     };
     channelHandler.onMessageDeleted = (channel, messageId) => {
@@ -116,6 +116,8 @@ class OpenChannel extends Component {
 				
 		// 	});
 		
+		const params = new sb.UserMessageParams();
+		params.message = 'Hello React native';
 		// });
 		const TIMESTAMP = 1592407408751;
 		console.log('channelUrl: ', channelUrl);
@@ -129,18 +131,25 @@ class OpenChannel extends Component {
 					if (error3) {
 						console.log('error3: ', error3);
 					}
-					const previousMessageListQuery = channel.createPreviousMessageListQuery();
-					previousMessageListQuery.load(10, true, (messages, error4) => {
-						if (error4) {
-							console.log('error4: ', error4);
+					// const previousMessageListQuery = channel.createPreviousMessageListQuery();
+					// previousMessageListQuery.load(10, true, (messages, error4) => {
+					// 	if (error4) {
+					// 		console.log('error4: ', error4);
+					// 	}
+					// 	console.log('messages: ', messages);
+					// })
+
+					channel.sendUserMessage(params, function(message, error) {
+						if (error) {
+								return;
 						}
-						console.log('messages: ', messages);
-					})
+				
+						console.log('sendUserMessage: ', message);
+					});
 					console.log('response: ', response);
 					this.registerCommonHandler(channelUrl, channelHandler);
 					sb.addChannelHandler(channelUrl, channelHandler);
 				})
-				
 				// resolve(channel);
 				
       }
