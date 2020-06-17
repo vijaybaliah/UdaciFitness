@@ -129,14 +129,13 @@ class OpenChannel extends Component {
 					if (error3) {
 						console.log('error3: ', error3);
 					}
-					channel.getPreviousMessagesByTimestamp(TIMESTAMP, function(messages, error4) {
+					const previousMessageListQuery = channel.createPreviousMessageListQuery();
+					previousMessageListQuery.load(10, true, (messages, error4) => {
 						if (error4) {
 							console.log('error4: ', error4);
-								return;
 						}
 						console.log('messages: ', messages);
-						// A list of messages sent before the specified timestamp is successfully retrieved.
-				});
+					})
 					console.log('response: ', response);
 					this.registerCommonHandler(channelUrl, channelHandler);
 					sb.addChannelHandler(channelUrl, channelHandler);
