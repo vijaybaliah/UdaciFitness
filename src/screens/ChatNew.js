@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform, Button as ButtonNative } from "react-native";
 import SendBird from 'sendbird';
 import { render } from "react-dom";
 import InputText from '../components/UI/InputText';
@@ -11,7 +11,8 @@ class ChatNew extends Component {
     channelUrl: '',
     channel: null,
     chatList: [],
-    chatInput: ''
+    chatInput: '',
+    webcount: 0,
   }
   componentDidMount() {
     const { navigation } = this.props;
@@ -30,8 +31,10 @@ class ChatNew extends Component {
   registerCommonHandler = (channelUrl, channelHandler) => {
     channelHandler.onMessageReceived = (channel, message) => {
       if (channel.url === channelUrl) {
+
         this.setState((prev) => {
-          return { chatList: [...prev.chatList, message] }
+          const current = [...prev.chatList, message];
+          return { chatList: current }
         })
         // if (channel.isGroupChannel()) {
         //   sbMarkAsRead({ channel });
@@ -127,26 +130,27 @@ class ChatNew extends Component {
     this.setState({chatInput})
   }
 
-  handleSendMessage = () => {
+  handleSendMessage = (channel) => {
     const { navigation } = this.props;
     const { chatInput } = this.state;
-    const sb = SendBird.getInstance();
-    const channel = navigation.getParam('channel');
-    const params = new sb.UserMessageParams();
-    params.message = chatInput;
+
     if (channel) {
+      const sb = SendBird.getInstance();
+      const params = new sb.UserMessageParams();
+      params.message = chatInput;
       channel.enter((response, error3) => {
         channel.sendUserMessage(params, (message, error) => {
           if (error) {
             return;
           }
+
           this.setState((prev) => {
             return {
               chatList: [...prev.chatList, message],
-              chatInput: ''
+              chatInput: '',
             }
           })
-          console.log('sendUserMessage: ', message);
+          console.log('sendUserMessage: ');
         });
       })
     }
@@ -154,14 +158,23 @@ class ChatNew extends Component {
 
 
   render() {
-    const { chatList, chatInput } = this.state;
+    const { chatList, chatInput, channel } = this.state;
+    const filteredChat = chatList.filter((list, pos) => {
+      return chatList.indexOf(list)== pos; 
+    })
     return (
       <View>
-        {
-          chatList.map(chatMessages => {
-          return (<Text>{chatMessages.message}</Text>)
-          })
-        }
+        <View>
+          {
+            filteredChat.map(chatMessages => {
+            return (
+                <Text key={chatMessages.messageId}>
+                  {chatMessages.message}
+                </Text>
+              )
+            })
+          }
+        </View>
         <View>
           <InputText
             value={chatInput}
@@ -169,7 +182,17 @@ class ChatNew extends Component {
           />
         </View>
         <View>
-          <Button onClick={this.handleSendMessage}>{'send'}</Button>
+          {
+            Platform.OS === 'web' ?
+            <ButtonNative
+              onPress={() => this.handleSendMessage(channel)}
+              title={'send'}
+              color={'#fccd03'}
+            /> :
+            <Button onClick={() => this.handleSendMessage(channel)}>
+              {'send'}
+            </Button>
+          }
         </View>
       </View>
     );
