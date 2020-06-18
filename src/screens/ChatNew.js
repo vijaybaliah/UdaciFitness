@@ -2,6 +2,8 @@ import React, { useState, Component } from "react";
 import { View, Text } from "react-native";
 import SendBird from 'sendbird';
 import { render } from "react-dom";
+import InputText from '../components/UI/InputText';
+import Button from '../components/UI/Button';
 
 class ChatNew extends Component {
 
@@ -9,6 +11,7 @@ class ChatNew extends Component {
     channelUrl: '',
     channel: null,
     chatList: [],
+    chatInput: ''
   }
   componentDidMount() {
     const { navigation } = this.props;
@@ -23,12 +26,42 @@ class ChatNew extends Component {
   }
 
 
+
+  registerCommonHandler = (channelUrl, channelHandler) => {
+    channelHandler.onMessageReceived = (channel, message) => {
+      if (channel.url === channelUrl) {
+        this.setState((prev) => {
+          return { chatList: [...prev.chatList, message] }
+        })
+        // if (channel.isGroupChannel()) {
+        //   sbMarkAsRead({ channel });
+        // }
+      }
+    };
+    channelHandler.onMessageUpdated = (channel, message) => {
+
+      if (channel.url === channelUrl) {
+        console.log('message3: ', message);
+      }
+    };
+    channelHandler.onMessageDeleted = (channel, messageId) => {
+      if (channel.url === channelUrl) {
+        console.log('messageId: ', messageId);
+        // dispatch({
+        //   type: MESSAGE_DELETED,
+        //   payload: messageId
+        // });
+      }
+    };
+  };
+
   getchatHistory = () => {
     const { navigation } = this.props;
-    const { channelUrl } = this.state;
     const channel = navigation.getParam('channel');
+    const channelUrl = navigation.getParam('channelUrl');
     console.log('channel: ', channel);
     const sb = SendBird.getInstance();
+    let channelHandler = new sb.ChannelHandler();
     if (channel) {
         channel.enter((response, error3) => {
           if (error3) {
@@ -36,7 +69,7 @@ class ChatNew extends Component {
           }
 
           const previousMessageListQuery = channel.createPreviousMessageListQuery();
-					previousMessageListQuery.load(10, true, (messages, error4) => {
+					previousMessageListQuery.load(10, false, (messages, error4) => {
 						if (error4) {
 							console.log('error4: ', error4);
 						}
@@ -50,9 +83,9 @@ class ChatNew extends Component {
 
           //   console.log('sendUserMessage: ', message);
           // });
-          console.log('response: ', response);
-          // this.registerCommonHandler(channelUrl, channelHandler);
-          // sb.addChannelHandler(channelUrl, channelHandler);
+          // console.log('response: ', response);
+          this.registerCommonHandler(channelUrl, channelHandler);
+          sb.addChannelHandler(channelUrl, channelHandler);
         })
     }
         // resolve(channel);
@@ -89,8 +122,39 @@ class ChatNew extends Component {
 
   //   }
   // });
+
+  handleOnMessageChange = (chatInput) => {
+    this.setState({chatInput})
+  }
+
+  handleSendMessage = () => {
+    const { navigation } = this.props;
+    const { chatInput } = this.state;
+    const sb = SendBird.getInstance();
+    const channel = navigation.getParam('channel');
+    const params = new sb.UserMessageParams();
+    params.message = chatInput;
+    if (channel) {
+      channel.enter((response, error3) => {
+        channel.sendUserMessage(params, (message, error) => {
+          if (error) {
+            return;
+          }
+          this.setState((prev) => {
+            return {
+              chatList: [...prev.chatList, message],
+              chatInput: ''
+            }
+          })
+          console.log('sendUserMessage: ', message);
+        });
+      })
+    }
+  }
+
+
   render() {
-    const { chatList } = this.state;
+    const { chatList, chatInput } = this.state;
     return (
       <View>
         {
@@ -98,6 +162,15 @@ class ChatNew extends Component {
           return (<Text>{chatMessages.message}</Text>)
           })
         }
+        <View>
+          <InputText
+            value={chatInput}
+            onChange={this.handleOnMessageChange}
+          />
+        </View>
+        <View>
+          <Button onClick={this.handleSendMessage}>{'send'}</Button>
+        </View>
       </View>
     );
   }
