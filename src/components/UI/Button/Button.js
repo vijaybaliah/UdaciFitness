@@ -10,6 +10,7 @@ import {
   GREEN,
   PRIMARY_COLOR,
   PRIMARY_BTN_TEXT_COLOR,
+  SECONDARY_BTN_COLOR,
 } from '../UikitUtils/colors';
 
 const styles = StyleSheet.create({
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
   },
   secondary: {
-    backgroundColor: "#2fb432",
+    backgroundColor: SECONDARY_BTN_COLOR,
   },
   common: {
     alignItems: 'center',
@@ -54,7 +55,7 @@ const Button = (props) => {
     styleArray.push(styles.secondary);
   } else if (success) {
     styleArray.push(styles.success);
-  } else if (primary) {
+  } else {
     styleArray.push(styles.primary);
     styleTextArray.push(styles.primaryText);
   }
