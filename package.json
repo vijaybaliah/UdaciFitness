@@ -39,22 +39,10 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "babel-preset-expo": "^8.2.1",
+    "enzyme-adapter-react-16": "^1.15.2",
     "jest-expo": "^37.0.0",
+    "jest-expo-enzyme": "^1.0.0",
     "react-test-renderer": "^16.13.1"
-  },
-  "jest": {
-    "preset": "jest-expo",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
-    ],
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/coverage/**",
-      "!**/node_modules/**",
-      "!**/babel.config.js",
-      "!**/jest.setup.js"
-    ]
   },
   "private": true,
   "name": "udacifitness",
