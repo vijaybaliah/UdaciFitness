@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, Button } from "react-native";
 import { connect } from "react-redux";
-import { sendbirdLogout, initMenu } from "../actions/menuActions";
+import { sendbirdLogout, initMenu } from "../../actions/menuActions";
 
 class Menu extends Component {
   static navigationOptions = {

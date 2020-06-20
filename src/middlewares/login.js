@@ -29,7 +29,8 @@ const login = store => next => action => {
           method: 'post',
           data: payload
         }).then(response => {
-          store.dispatch({type: type + '_SUCCESS', payload: response});
+          const { user: { user } = {}, ...rest } = response || {};
+          store.dispatch({type: type + '_SUCCESS', payload: { ...rest, user }});
         }, (error) => {
           store.dispatch({type: type + '_ERROR', payload: {error: error.message}});
         }).catch(error => {

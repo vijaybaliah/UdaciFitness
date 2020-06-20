@@ -6,30 +6,38 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { useDispatch } from "react-redux";
+import { USER } from '../utils/constants';
+import { updateUserInfo } from '../actions'
 
-class AuthLoadingScreen extends React.Component {
-  componentDidMount() {
-    this._bootstrapAsync();
-  }
-
+const AuthLoadingScreen = (props) => {
+  const dispatch = useDispatch();
   // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+  const bootstrapAsync = async () => {
+    const userToken = await AsyncStorage.getItem(USER);
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+    if (userToken) {
+      try {
+        const user = JSON.parse(userToken);
+        dispatch(updateUserInfo({ user }))
+      } catch (e) {
+        console.log('bootstrapAsync Error: ', e);
+      }
+    }
+    props.navigation.navigate(userToken ? 'App' : 'Auth');
+    
   };
 
+  bootstrapAsync();
   // Render any loading content that you like here
-  render() {
-    return (
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
-    );
-  }
+  return (
+    <View>
+      <ActivityIndicator />
+      <StatusBar barStyle="default" />
+    </View>
+  );
 }
 
 export default AuthLoadingScreen;

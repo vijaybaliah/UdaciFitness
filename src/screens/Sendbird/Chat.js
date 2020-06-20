@@ -24,10 +24,10 @@ import {
   onUserUpdateMessage,
   clearMessageSelection,
   channelExit
-} from '../actions/chatActions';
+} from '../../actions/chatActions';
 import {
   openChannelProgress
-} from '../actions/openChannelActions';
+} from '../../actions/openChannelActions';
 // import { Button, Spinner, MessageInput, Message, AdminMessage } from '../components';
 // import { BarIndicator } from 'react-native-indicators';
 import {
@@ -36,8 +36,8 @@ import {
   sbCreatePreviousMessageListQuery,
   sbAdjustMessageList,
   sbMarkAsRead
-} from '../actions/sendbirdActions';
-import appStateChangeHandler from '../appStateChangeHandler';
+} from '../../actions/sendbirdActions';
+import appStateChangeHandler from './appStateChangeHandler';
 import SendBird from 'sendbird';
 
 class Chat extends Component {

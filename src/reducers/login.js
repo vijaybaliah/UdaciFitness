@@ -5,6 +5,7 @@ import {
   SEND_USER_OTP,
   SEND_USER_OTP_SUCCESS,
   SEND_USER_OTP_ERROR,
+  UPDATE_USER_INFO,
 } from '../actions';
 
 const verifyUserMobileNo = (state = {
@@ -47,6 +48,7 @@ const userInfo = (state = {
       }
     case SEND_USER_OTP_SUCCESS:
     case SEND_USER_OTP_ERROR:
+    case UPDATE_USER_INFO:
       return {
         ...state,
         ...payload

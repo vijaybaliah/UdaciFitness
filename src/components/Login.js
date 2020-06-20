@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   AsyncStorage,
   Text,
 } from 'react-native';
+import { Formik, ErrorMessage } from 'formik';
 
 import InputText from './UI/InputText';
 import {
@@ -12,25 +13,40 @@ import {
   sendUserOtp,
 } from '../actions';
 import Button from './UI/Button';
+import { USER } from '../utils/constants';
 
 const Login = (props) => {
 
-  const [ phone, setPhone ] = useState('');
-  const [ otp, setOtp ] = useState('');
-  const { status, loggedInStatus } = useSelector(state => {
+  const {
+    status,
+    loggedInStatus,
+    user
+  } = useSelector(state => {
     const { verifyUserMobileNo, userInfo } = state;
     return {
       status: verifyUserMobileNo.status,
       loggedInStatus: userInfo.status,
+      user: userInfo.user || null
     }
   });
   const dispatch = useDispatch();
 
-  const handlePhoneNumberChange = value => setPhone(value);
+  // login form validation
+  const handleFormValidation = (values) => {
+    const errors = {};
 
-  const handleOTPUpdate = value => setOtp(value);
+    if (!values.phone) {
+      errors.phone = 'This field is required';
+    }
+    if (status && !values.otp) {
+      errors.otp = 'This field is required';
+    }
 
-  const handleVerifyMobile = () => {
+    return errors;
+  }
+  // on login submit
+  const handleVerifyMobile = (value) => {
+    const { phone, otp } = value;
     if (status) {
       dispatch(sendUserOtp({
         direct_login: true,
@@ -55,9 +71,16 @@ const Login = (props) => {
   }
 
   const signInAsync = async () => {
-    console.log('signInAsync called');
-    await AsyncStorage.setItem('userToken', 'abc');
-    props.navigation.navigate('App');
+    if (user !== null) {
+      try {
+        const userString = JSON.stringify(user);
+        await AsyncStorage.setItem(USER, userString);
+        props.navigation.navigate('App');
+      } catch (error) {
+        console.log('signInAsync user: ', user)
+        console.log('signInAsync error: ', error)
+      }
+    }
   };
 
   if (loggedInStatus) {
@@ -65,27 +88,46 @@ const Login = (props) => {
   }
 
   return (
-    <View>
-      <Text>Phone:</Text>
-      <InputText
-        onChange={handlePhoneNumberChange}
-        value={phone}
-      />
-      {
-        status &&
+    <Formik
+      initialValues={{
+        phone: '',
+        otp: ''
+      }}
+      onSubmit={handleVerifyMobile}
+      validate={handleFormValidation}
+    >
+      {({ handleChange, handleBlur, handleSubmit, values }) => (
         <View>
-          <Text>otp:</Text>
+          <Text>Phone:</Text>
           <InputText
-            onChange={handleOTPUpdate}
-            value={otp}
+            onChange={handleChange('phone')}
+            onBlur={handleBlur('phone')}
+            value={values.phone}
+          />
+          <Text>
+            <ErrorMessage name={'phone'} />
+          </Text>
+          {
+            status &&
+            <View>
+              <Text>otp:</Text>
+              <InputText
+                onChange={handleChange('otp')}
+                onBlur={handleBlur('otp')}
+                value={values.otp}
+              />
+              <Text>
+                <ErrorMessage name={'otp'} />
+              </Text>
+            </View>
+          }
+          <Button
+            title={'Verify Mobile Number'}
+            onClick={handleSubmit}
           />
         </View>
-      }
-      <Button
-        title={'Verify Mobile Number'}
-        onClick={handleVerifyMobile}
-      />
-    </View>
+      )}
+    </Formik>
   )
 }
 

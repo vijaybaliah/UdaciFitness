@@ -23,7 +23,7 @@ export function removeEntry(key) {
   })
 }
 
-const formatUrl = (path) => {
+const formatUrl = (path, method = '') => {
   if (path[0] === 'h') {
     console.log('Path: ' + path);
     return path;
@@ -36,14 +36,13 @@ const formatUrl = (path) => {
   // } else if (__SERVER__) {
   //   formattedUrl = config.bePrivateHost + adjustedPath;
   // }
-  console.log('formatted Path: ' + formattedUrl);
+  console.log('formatted Path: ['+ method + '] ' + formattedUrl);
   return formattedUrl;
 }
 
 const fetch = (url, options = {}) => new Promise((resolve, reject) => {
   const { method = 'get', data } = options;
-  console.log('method: ', method);
-  const request = superagent[method](formatUrl(url))
+  const request = superagent[method](formatUrl(url, method))
 
   if (data) {
     console.log('data: ', data);

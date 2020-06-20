@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { getOpenChannelList, clearSelectedOpenChannel } from '../actions/openChannelActions';
-import { sbCreateOpenChannelListQuery, onOpenChannelPress } from '../actions/sendbirdActions';
+import { getOpenChannelList, clearSelectedOpenChannel } from '../../actions/openChannelActions';
+import { sbCreateOpenChannelListQuery, onOpenChannelPress } from '../../actions/sendbirdActions';
 import SendBird from 'sendbird';
-import Button from '../components/UI/Button';
+import Button from '../../components/UI/Button/Button';
 
 class OpenChannel extends Component {
   static navigationOptions = {

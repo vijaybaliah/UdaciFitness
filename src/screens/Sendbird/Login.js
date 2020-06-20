@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, Button, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { sendbirdLogin } from '../actions/loginActions';
-import InputText from '../components/UI/InputText';
+import { sendbirdLogin } from '../../actions/loginActions';
+import InputText from '../../components/UI/InputText/InputText';
 
 class Login extends Component {
   static navigationOptions = {

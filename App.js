@@ -22,11 +22,11 @@ import EntryDetail from './src/components/EntryDetail';
 import Live from './src/components/Live';
 import Login from './src/components/Login';
 import AuthLoadingScreen from './src/components/AuthLoadingScreen';
-import SendBirdLogin from './src/screens/Login'
-import Menu from './src/screens/Menu'
-import Profile from './src/screens/Profile'
-import OpenChannel from './src/screens/OpenChannel'
-import ChatNew from './src/screens/ChatNew'
+import SendBirdLogin from './src/screens/Sendbird/Login'
+import Menu from './src/screens/Sendbird/Menu'
+import Profile from './src/screens/Sendbird/Profile'
+import OpenChannel from './src/screens/Sendbird/OpenChannel'
+import ChatNew from './src/screens/Sendbird/ChatNew'
 
 
 function UdaciStatusBar ({backgroundColor, ...props}) {

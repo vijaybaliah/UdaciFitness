@@ -8,6 +8,7 @@ export const VERIFY_MOBILE_NUMBER_ERROR = 'VERIFY_MOBILE_NUMBER_ERROR';
 export const SEND_USER_OTP = 'SEND_USER_OTP';
 export const SEND_USER_OTP_SUCCESS = 'SEND_USER_OTP_SUCCESS';
 export const SEND_USER_OTP_ERROR = 'SEND_USER_OTP_ERROR';
+export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 export function receiveEntries(entries) {
   return {
@@ -25,6 +26,7 @@ export function addEntry(entry) {
 
 export const verifyMobileNumber = payload => action(VERIFY_MOBILE_NUMBER, payload);
 export const sendUserOtp = payload => action(SEND_USER_OTP, payload);
+export const updateUserInfo = payload => action(UPDATE_USER_INFO, payload);
 
 // sendbird >>>>
 export const LOGIN_SUCCESS = 'login_success';

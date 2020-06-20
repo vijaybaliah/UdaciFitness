@@ -2,8 +2,8 @@ import React, { useState, Component } from "react";
 import { View, Text, Platform, Button as ButtonNative } from "react-native";
 import SendBird from 'sendbird';
 import { render } from "react-dom";
-import InputText from '../components/UI/InputText';
-import Button from '../components/UI/Button';
+import InputText from '../../components/UI/InputText/InputText';
+import Button from '../../components/UI/Button/Button';
 
 class ChatNew extends Component {
 
