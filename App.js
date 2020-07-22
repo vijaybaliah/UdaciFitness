@@ -116,8 +116,8 @@ const SendBirdStack = createStackNavigator({
     screen: ChatNew
   },
 });
-
-const MainNavigator = createAppContainer(createSwitchNavigator(
+// const MainNavigator = createAppContainer(createSwitchNavigator(
+const MainNavigator = createAppContainer(createStackNavigator(
   {
     AuthLoading: AuthLoadingScreen,
     App: AppStack,
